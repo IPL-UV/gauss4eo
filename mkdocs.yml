@@ -1,0 +1,99 @@
+# Project information
+site_name: RBIG4EO
+site_description: Literature & Code for all things RBIG and Earth Sci
+site_author: J. Emmanuel Johnson
+site_url: https://ipl-uv.github.io/rbig4eo
+
+# Repository
+repo_name: ipl-uv/rbig4eo
+repo_url: https://github.com/ipl-uv/rbig4eo
+
+# Configuration
+theme:
+  name: material
+  language: en
+  palette:
+    primary: green
+    accent: black
+  font:
+    text: source code pro
+    code: source code pro
+
+plugins:
+  - search
+  - mkdocs-jupyter
+
+nav:
+  - Home: "README.md"
+  - Demos:
+    - RBIG Algorithm: "notebooks/demos/demo_rbig4eo.ipynb"
+    - RBIG Layers: "notebooks/demos/demo_rbig_layers.ipynb"
+    - Information Theory: "notebooks/demos/demo_itm_vs_corr.ipynb"
+  - HSI:
+    - Sampling: "notebooks/hsi/hsi_sampling.ipynb"
+  - Drought:
+    - Features: "notebooks/drought/1.1_drought_features.ipynb"
+    - Example Exp: "notebooks/drought/2_experiment_example.ipynb"
+    - Visualization (Entropy): "notebooks/drought/3.0_viz_entropy.ipynb"
+    - Visualization (Mutual Info): "notebooks/drought/3.1_viz_similarity.ipynb"
+
+# Copyright
+copyright: Copyright &copy; 2020 Image Processing Laboratory
+
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.attr_list
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.highlight:
+      linenums_style: pymdownx-inline
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  # - pymdownx.magiclink:
+  #     repo_url_shorthand: true
+  #     user: squidfunk
+  #     repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra_javascript:
+    - javascripts/extra.js
+    - https://polyfill.io/v3/polyfill.min.js?features=es6
+    - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
+    # - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
+extra:
+  # disqus: XHR39t5kZv
+  social:
+    # - type: 'envelope'
+    #   link: 'http://www.shortwhale.com/ericmjl'
+    - icon: fontawesome/brands/github
+      link: 'https://github.com/jejjohnson'
+    - icon: fontawesome/brands/twitter
+      link: 'https://twitter.com/jejjohnson'
+    - icon: fontawesome/brands/linkedin
+      link: 'https://linkedin.com/in/jejjohnson'
+    - icon: fontawesome/solid/globe
+      link: 'https://jejjohnson.netlify.app'
+  
