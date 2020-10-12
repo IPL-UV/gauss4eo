@@ -2,11 +2,11 @@
 site_name: RBIG4EO
 site_description: Literature & Code for all things RBIG and Earth Sci
 site_author: J. Emmanuel Johnson
-site_url: https://ipl-uv.github.io/rbig4eo
+site_url: https://ipl-uv.github.io/gauss4eo
 
 # Repository
-repo_name: ipl-uv/rbig4eo
-repo_url: https://github.com/ipl-uv/rbig4eo
+repo_name: ipl-uv/gauss4eo
+repo_url: https://github.com/ipl-uv/gauss4eo
 
 # Configuration
 theme:
