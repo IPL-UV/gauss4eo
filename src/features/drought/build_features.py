@@ -13,7 +13,6 @@ import pandas as pd
 import shapely
 from typing import Union, List, Tuple
 
-
 SHAPEFILES = "/media/disk/databases/SHAPEFILES/shape_files_us_states/"
 EMDATSHAPE = "/media/disk/databases/SMADI/EMDAT_validation/"
 
@@ -133,3 +132,7 @@ def get_common_elements_many(dfs: List[pd.DataFrame]) -> List[pd.DataFrame]:
     dfs = [df.loc[idx] for df in dfs]
 
     return dfs
+
+
+def get_demo_pixel(ds, pixel: Tuple[float, float] = (-121, 37)):
+    return None

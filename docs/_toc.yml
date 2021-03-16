@@ -7,3 +7,5 @@
   - file: content/drought/overview.md
     sections:
     - file: content/drought/2_preprocessing.md
+    - file: content/drought/3_auto_correlation.md
+    - file: content/drought/4_cross_correlation.md
