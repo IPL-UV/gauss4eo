@@ -9,3 +9,5 @@ title                       : Gaussianization 4 Earth Observation  # The title o
 author                      : J. Emmanuel Johnson  # The author of the book
 copyright                   : "2021"  # Copyright year to be placed in the footer
 # logo                        : book.png  # A path to the book logo
+execute:
+  execute_notebooks: cache
