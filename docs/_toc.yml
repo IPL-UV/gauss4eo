@@ -6,4 +6,4 @@
   chapters: 
   - file: content/drought/overview.md
     sections:
-    - file: content/drought/drought_features.md
+    - file: content/drought/preprocessing

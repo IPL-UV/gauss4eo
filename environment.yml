@@ -64,7 +64,5 @@ dependencies:
   - netCDF4
   - joblib          # Embarssingly parallel
   # Documentation
-  - mkdocs-material 
-  - mknotebooks
-  - pymdown-extensions 
-  - pdoc3
+  - jupyter-book
+  - ghp-import
