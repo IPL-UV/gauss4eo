@@ -1,3 +1,9 @@
 # Table of contents
 # Learn more at https://jupyterbook.org/customize/toc.html
 - file: intro
+
+- part: Applications
+  chapters: 
+  - file: content/drought/overview.md
+    sections:
+    - file: content/drought/drought_features.md
