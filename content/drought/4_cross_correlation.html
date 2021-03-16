@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Drought Features &#8212; Gaussianization 4 Earth Observation</title>
+    <title>Cross-Correlation &#8212; Gaussianization 4 Earth Observation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -54,7 +54,7 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Drought Features" href="3_auto_correlation.html" />
+    <link rel="prev" title="Auto-Correlation" href="3_auto_correlation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -107,12 +107,12 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3_auto_correlation.html">
-     Drought Features
+     Auto-Correlation
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Drought Features
+     Cross-Correlation
     </a>
    </li>
   </ul>
@@ -240,7 +240,7 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#cross-correlation">
+  <a class="reference internal nav-link" href="#id1">
    Cross Correlation
   </a>
   <ul class="nav section-nav flex-column">
@@ -267,7 +267,7 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
+    <a class="reference internal nav-link" href="#id2">
      Groupby Years
     </a>
     <ul class="nav section-nav flex-column">
@@ -297,8 +297,8 @@
         
               <div>
                 
-  <div class="section" id="drought-features">
-<h1>Drought Features<a class="headerlink" href="#drought-features" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="cross-correlation">
+<h1>Cross-Correlation<a class="headerlink" href="#cross-correlation" title="Permalink to this headline">¶</a></h1>
 <p><strong>Steps</strong>:</p>
 <ol class="simple">
 <li><p>Load CONUS dataset (5D, 14D temporal resolution)</p></li>
@@ -516,8 +516,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="cross-correlation">
-<h2>Cross Correlation<a class="headerlink" href="#cross-correlation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>Cross Correlation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cross_correlation</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">symmetric</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -732,8 +732,8 @@
 <img alt="../../_images/4_cross_correlation_27_0.png" src="../../_images/4_cross_correlation_27_0.png" />
 </div>
 </div>
-<div class="section" id="id1">
-<h3>Groupby Years<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>Groupby Years<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># drop nans</span>
@@ -837,7 +837,7 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="3_auto_correlation.html" title="previous page">Drought Features</a>
+    <a class='left-prev' id="prev-link" href="3_auto_correlation.html" title="previous page">Auto-Correlation</a>
 
         </div>
         

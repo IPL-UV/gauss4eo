@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Drought Features &#8212; Gaussianization 4 Earth Observation</title>
+    <title>Auto-Correlation &#8212; Gaussianization 4 Earth Observation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -54,7 +54,7 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Drought Features" href="4_cross_correlation.html" />
+    <link rel="next" title="Cross-Correlation" href="4_cross_correlation.html" />
     <link rel="prev" title="Standard Preprocessing" href="2_preprocessing.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -108,12 +108,12 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Drought Features
+     Auto-Correlation
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="4_cross_correlation.html">
-     Drought Features
+     Cross-Correlation
     </a>
    </li>
   </ul>
@@ -281,8 +281,8 @@
         
               <div>
                 
-  <div class="section" id="drought-features">
-<h1>Drought Features<a class="headerlink" href="#drought-features" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="auto-correlation">
+<h1>Auto-Correlation<a class="headerlink" href="#auto-correlation" title="Permalink to this headline">¶</a></h1>
 <p><strong>Steps</strong>:</p>
 <ol class="simple">
 <li><p>Load CONUS dataset (5D, 14D temporal resolution)</p></li>
@@ -542,7 +542,6 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># drop nans</span>
 <span class="n">demo_pixel_interp_rolling</span> <span class="o">=</span> <span class="n">demo_pixel_interp_rolling</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">crosscorr_variables</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 
 <span class="n">autocorr_variables</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -553,20 +552,6 @@
     <span class="n">auto_corr</span><span class="p">,</span> <span class="n">lags</span> <span class="o">=</span> <span class="n">autocorrelation</span><span class="p">(</span><span class="n">demo_pixel_interp_rolling</span><span class="p">[</span><span class="n">ivariable</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
     
     <span class="n">autocorr_variables</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ivariable</span><span class="si">}</span><span class="s2">_autocorr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">auto_corr</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">8</span><span class="o">-</span><span class="mi">93</span><span class="n">bef44bb8a9</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">demo_pixel_interp_rolling</span> <span class="o">=</span> <span class="n">demo_pixel_interp_rolling</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> 
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">crosscorr_variables</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> 
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">autocorr_variables</span> <span class="o">=</span> <span class="p">{}</span>
-
-<span class="ne">NameError</span>: name &#39;crosscorr_variables&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -605,6 +590,9 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3_auto_correlation_16_0.png" src="../../_images/3_auto_correlation_16_0.png" />
+</div>
 </div>
 </div>
 <div class="section" id="assume-symmetry">
@@ -632,6 +620,9 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_autocorr</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3_auto_correlation_19_0.png" src="../../_images/3_auto_correlation_19_0.png" />
 </div>
 </div>
 </div>
@@ -680,6 +671,9 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3_auto_correlation_22_0.png" src="../../_images/3_auto_correlation_22_0.png" />
+</div>
 </div>
 </div>
 <div class="section" id="average-per-year-per-month">
@@ -690,6 +684,9 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3_auto_correlation_24_0.png" src="../../_images/3_auto_correlation_24_0.png" />
+</div>
 </div>
 <div class="section" id="days-within-1-month-autocorrelation">
 <h4>Days within 1 Month  Autocorrelation<a class="headerlink" href="#days-within-1-month-autocorrelation" title="Permalink to this headline">¶</a></h4>
@@ -698,6 +695,9 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_autocorr</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.day&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3_auto_correlation_26_0.png" src="../../_images/3_auto_correlation_26_0.png" />
 </div>
 </div>
 </div>
@@ -731,7 +731,7 @@
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="2_preprocessing.html" title="previous page">Standard Preprocessing</a>
-    <a class='right-next' id="next-link" href="4_cross_correlation.html" title="next page">Drought Features</a>
+    <a class='right-next' id="next-link" href="4_cross_correlation.html" title="next page">Cross-Correlation</a>
 
         </div>
         
