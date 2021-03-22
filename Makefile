@@ -17,7 +17,7 @@ help:	## Display this help
 
 # DOCS
 build:
-	jupyter-book build research_notebook --all
+	jupyter-book build docs --all
 
 clean:
-	jupyter-book clean research_notebook
+	jupyter-book clean docs
