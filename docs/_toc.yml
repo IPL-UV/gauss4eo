@@ -9,3 +9,4 @@
     - file: content/drought/2_preprocessing.md
     - file: content/drought/3_auto_correlation.md
     - file: content/drought/4_cross_correlation.md
+    - file: content/drought/5_cross_correlation_spatial.md
