@@ -1,0 +1,14 @@
+{
+    "experiment_name": "demo_rcp",
+    "data_params": {
+        "base_model_dir": ,
+        "base_model": "era5",
+        "variables": [
+            "psl"
+        ],
+        "time_period": [
+            "202001",
+            "202012"
+        ]
+    }
+}
