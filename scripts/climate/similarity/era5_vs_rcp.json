@@ -1,0 +1,27 @@
+{
+    "model": {
+        "era5": "mean_sea_level_pressure_reanalysis_era5.nc"
+    },
+    "variable": {
+        "mean_sea_level_pressure": {
+            "era5": [
+                "msl",
+                "mslp"
+            ],
+            "cmip5": [
+                "psl",
+                "mslp"
+            ]
+        }
+    },
+    "time_period": [
+        {
+            "start_date": "202001",
+            "end_date": "202012"
+        },
+        {
+            "start_date": "201001",
+            "end_date": "202012"
+        }
+    ]
+}

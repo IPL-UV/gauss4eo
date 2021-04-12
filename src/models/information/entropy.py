@@ -26,7 +26,7 @@ class Univariate:
     ) -> float:
         """Calculates the entropy using the histogram. Option to do a Miller Maddow
         correction.
-        
+
         Parameters
         ----------
         """
@@ -48,23 +48,23 @@ class Univariate:
     @staticmethod
     def knn_entropy(X: np.ndarray, k: int = 5, algorithm="brute", n_jobs=1):
         """Calculates the Entropy using the knn method.
-    
+
         Parameters
         ----------
         X : np.ndarray, (n_samples x d_dimensions)
             The data to find the nearest neighbors for.
-        
+
         k : int, default=10
             The number of nearest neighbors to find.
-        
-        algorithm : str, default='brute', 
+
+        algorithm : str, default='brute',
             The knn algorithm to use.
             ('brute', 'ball_tree', 'kd_tree', 'auto')
-        
+
         n_jobs : int, default=-1
             The number of cores to use to find the nearest neighbors
-        
-            
+
+
         Returns
         -------
         H : float
@@ -112,23 +112,23 @@ class Multivariate:
     @staticmethod
     def knn_entropy(X: np.ndarray, k: int = 5, algorithm="brute", n_jobs=1):
         """Calculates the Entropy using the knn method.
-    
+
         Parameters
         ----------
         X : np.ndarray, (n_samples x d_dimensions)
             The data to find the nearest neighbors for.
-        
+
         k : int, default=10
             The number of nearest neighbors to find.
-        
-        algorithm : str, default='brute', 
+
+        algorithm : str, default='brute',
             The knn algorithm to use.
             ('brute', 'ball_tree', 'kd_tree', 'auto')
-        
+
         n_jobs : int, default=-1
             The number of cores to use to find the nearest neighbors
-        
-            
+
+
         Returns
         -------
         H : float
@@ -184,14 +184,14 @@ class Multivariate:
 
 class KNNEstimator(BaseEstimator, Batch):
     """Performs the KNN search to
-    
+
     Parameters
     ----------
     n_neighbors : int, default = 10
         The kth neigbour to use for distance
 
-    algorithm : str, default='auto' 
-        The algorithm to use for the knn search. 
+    algorithm : str, default='auto'
+        The algorithm to use for the knn search.
         ['auto', 'brute', 'kd_tree', 'ball_tree']
         * Auto - automatically found
         * brute - brute-force search
@@ -199,20 +199,20 @@ class KNNEstimator(BaseEstimator, Batch):
         * ball_tree - BallTree, fast for generalized N-point problems
         KDTree has a faster query time but longer build time.
         BallTree has a faster build time but longer query time.
-        
+
     n_jobs : int, default=-1
         Number of cores to use for nn search
-    
+
     ensemble : bool, default=False
         Whether to use an ensemble of estimators via batches
-    
+
     batch_size : int, default=100
         If ensemble=True, this determines the number of batches
         of data to use to estimate the entropy
 
-    kwargs : any extra kwargs to use. Please see 
+    kwargs : any extra kwargs to use. Please see
         sklearn.neighbors.NearestNeighbors function.
-    
+
     min_dist : float, default=0.0
         Ensures that all distances are at least 0.0.
 
@@ -240,7 +240,7 @@ class KNNEstimator(BaseEstimator, Batch):
 
     def fit(self, X: np.ndarray, y: Optional[np.ndarray] = None) -> BaseEstimator:
         """
-        
+
         Parameters
         ----------
         X : np.ndarray, (n_samples, n_features)
@@ -319,7 +319,7 @@ class RBIGEstimator(BaseEstimator, Batch, BootStrap):
 
     def fit(self, X: np.ndarray, y: Optional[np.ndarray] = None) -> BaseEstimator:
         """
-        
+
         Parameters
         ----------
         X : np.ndarray, (n_samples, n_features)
@@ -428,20 +428,20 @@ class MarginalEntropy(Univariate):
 # volume of unit ball
 def volume_unit_ball(d_dimensions: int, radii: int, norm=2) -> float:
     """Volume of the d-dimensional unit ball
-    
+
     Parameters
     ----------
     d_dimensions : int
         Number of dimensions to estimate the volume
-    
+
     radii : int,
-    
+
     norm : int, default=2
         The type of ball to get the volume.
         * 2 : euclidean distance
         * 1 : manhattan distance
         * 0 : chebyshev distance
-    
+
     Returns
     -------
     vol : float
@@ -467,45 +467,38 @@ def knn_distance(
     n_neighbors: int = 20,
     algorithm: str = "brute",
     n_jobs: int = -1,
-    kwargs: Optional[dict] = None,
+    **kwargs,
 ) -> np.ndarray:
     """Light wrapper around sklearn library.
-    
+
     Parameters
     ----------
     X : np.ndarray, (n_samples x d_dimensions)
         The data to find the nearest neighbors for.
-    
+
     n_neighbors : int, default=20
         The number of nearest neighbors to find.
-    
-    algorithm : str, default='brute', 
+
+    algorithm : str, default='brute',
         The knn algorithm to use.
         ('brute', 'ball_tree', 'kd_tree', 'auto')
-    
+
     n_jobs : int, default=-1
         The number of cores to use to find the nearest neighbors
-    
+
     kwargs : dict, Optional
         Any extra keyword arguments.
-        
+
     Returns
     -------
     distances : np.ndarray, (n_samples x d_dimensions)
     """
-    if kwargs:
-        clf_knn = NearestNeighbors(
-            n_neighbors=n_neighbors, algorithm=algorithm, n_jobs=n_jobs, **kwargs
-        )
-    else:
-
-        clf_knn = NearestNeighbors(
-            n_neighbors=n_neighbors, algorithm=algorithm, n_jobs=n_jobs
-        )
+    clf_knn = NearestNeighbors(
+        n_neighbors=n_neighbors, algorithm=algorithm, n_jobs=n_jobs, **kwargs
+    )
 
     clf_knn.fit(X)
 
     dists, _ = clf_knn.kneighbors(X)
 
     return dists
-
