@@ -15,14 +15,9 @@ from argparse import ArgumentParser
 
 #
 import xarray as xr
-from pprint import pprint
-import cftime
 import xesmf as xe
 from isp_data.esdc.temporal import convert_to_360day_monthly
-from src.models.km.hsic import cka_coefficient
-from src.models.km.rv import rv_coefficient
-from src.models.km.rhsic import cka_coefficient_nystroem, cka_coefficient_rff
-from src.models.univariate import pearson, pearson_dim, univariate_stats
+from src.models.univariate import univariate_stats
 import tqdm
 import numpy as np
 import pandas as pd
@@ -120,6 +115,7 @@ stats_model_names = {
     "cka_coeff": "nHSIC",
     "rcka_coeff_nys": "nHSIC (Nystroem)",
     "rcka_coeff_rff": "nHSIC (RFF)",
+    "mi_xy": "MI (RBIG)",
 }
 # =====================
 # LOAD DATA
@@ -165,7 +161,7 @@ with tqdm.tqdm(ds.items()) as pbar:
         ds[imodel_id] = ds[imodel_id].sel(time=TIME_SLICE)
 
 n_time = ds[imodel_id]["time"].values.shape[0]
-
+wandb.log({"n_time": n_time})
 # =====================
 # REGRID
 # =====================
@@ -178,6 +174,8 @@ ds_out = xr.Dataset(
 
 n_lat = ds_out.coords["lat"].values.shape[0]
 n_lon = ds_out.coords["lon"].values.shape[0]
+wandb.log({"n_lat": n_lat})
+wandb.log({"n_lon": n_lon})
 
 final_ds = []
 
@@ -198,8 +196,6 @@ final_ds = xr.concat(final_ds, dim="model_id").reset_coords()
 # =====================
 # PEARSON CORRELATION
 # =====================
-
-
 all_stats = pd.DataFrame()
 
 # get all model IDS
@@ -244,21 +240,24 @@ with tqdm.tqdm(sym_pairs) as pbar:
 
             imodel_stats = {**imodel_stats, **multi_stats}
         else:
-            raise ValueError(f"Unrecognized experiment {EXPERIMENT}")
+            raise ValueError(f"Unrecognized experiment {args.experiment}")
 
         all_stats = pd.concat(
             [all_stats, pd.DataFrame(imodel_stats, index=[i])], axis=0
         )
+        wandb.log({f"stats": wandb.Table(dataframe=all_stats)})
         if args.smoke_test:
             break
 
 
-wandb.log({f"stats": wandb.Table(dataframe=all_stats)})
-
 if args.experiment == "univariate":
 
     # calculate pearson correlation
-    stats_model = ["pearson", "spearman", "kendall", "rcka_coeff_nys", "rcka_coeff_rff"]
+    stats_model = [
+        "pearson",
+        "spearman",
+        "kendall",
+    ]
 
 elif args.experiment == "multivariate":
 
@@ -268,6 +267,7 @@ elif args.experiment == "multivariate":
         "cka_coeff",
         "rcka_coeff_nys",
         "rcka_coeff_rff",
+        "mi_xy",
     ]
 else:
     raise ValueError(f"Unrecognized experiment {args.experiment}")
@@ -276,7 +276,7 @@ else:
 from src.visualization.climate.utils import get_pivot_df, plot_dendrogram, plot_heatmap
 
 
-plt_kwargs = {"vmin": 0, "vmax": 1.0, "cmap": "Reds_r"}
+plt_kwargs = {"vmin": 0, "cmap": "Reds"}
 
 for istats_model in stats_model:
 

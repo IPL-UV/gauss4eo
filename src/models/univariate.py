@@ -47,16 +47,6 @@ def univariate_stats(X: np.ndarray, Y: np.ndarray) -> Dict[str, float]:
     # Kendall-Tau Correlation Coefficient
     results["kendall"] = stats.kendalltau(x, y)[0]
 
-    # Nystroem
-    rhsic_nys = cka_coefficient_nystroem(x[:, None], y[:, None])
-
-    results = {**results, **rhsic_nys}
-
-    # RFF
-    rhsic_rff = cka_coefficient_rff(x[:, None], y[:, None])
-
-    results = {**results, **rhsic_rff}
-
     return results
 
 

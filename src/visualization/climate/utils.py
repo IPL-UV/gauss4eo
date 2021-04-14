@@ -1,6 +1,7 @@
 import pandas as pd
 import seaborn as sns
 import numpy as np
+import scipy.cluster.hierarchy as spc
 
 sns.set_context(context="talk", font_scale=0.7)
 
@@ -25,9 +26,11 @@ def plot_dendrogram(df: pd.DataFrame, ax, names):
 
     names = [i for i in names.values()]
 
-    import scipy.cluster.hierarchy as spc
+    # normalize by the largest value
+    max_value = max(df.max().max(), 1)
 
-    pdist = 1 - np.abs(df.values)
+    # calculate the distance matrix
+    pdist = max_value - np.abs(df.values)
     pdist = pdist[np.triu_indices_from(pdist, k=1)]
     linkage = spc.linkage(pdist, method="complete", optimal_ordering=True)
     order = spc.leaves_list(linkage)
