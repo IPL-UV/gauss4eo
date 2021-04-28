@@ -137,3 +137,4 @@ dask-worker-space/
 *.dirlock
 \datasets/
 \wandb/
+*.zip

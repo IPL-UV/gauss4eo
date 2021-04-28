@@ -6,7 +6,7 @@ from typing import Dict
 import time
 
 
-def univariate_stats(X: np.ndarray, Y: np.ndarray) -> Dict[str, float]:
+def get_univariate_linear_stats(X: np.ndarray, Y: np.ndarray) -> Dict[str, float]:
     """Calculates some univariate statistics
 
     Calculates some standard univeriate statistics such as
