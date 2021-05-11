@@ -138,3 +138,4 @@ dask-worker-space/
 \datasets/
 \wandb/
 *.zip
+*.job

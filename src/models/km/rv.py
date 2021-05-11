@@ -6,6 +6,23 @@ from src.models.km.hsic import hsic_v_statistic
 import time
 
 
+def get_rv_coefficient(X, Y):
+    from hyppo.independence import RV
+
+    if X.ndim < 2:
+        X = X[:, None]
+    if Y.ndim < 2:
+        Y = Y[:, None]
+
+    t0 = time.time()
+    rv_coeff = RV().statistic(x=X.copy(), y=Y.copy())
+
+    return {
+        "rv_coeff": rv_coeff,
+        "rv_time": time.time() - t0,
+    }
+
+
 def rv_coefficient(
     X: np.ndarray,
     Y: np.ndarray,

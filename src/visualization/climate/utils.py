@@ -32,7 +32,7 @@ def plot_dendrogram(df: pd.DataFrame, ax, names):
     # calculate the distance matrix
     pdist = max_value - np.abs(df.values)
     pdist = pdist[np.triu_indices_from(pdist, k=1)]
-    linkage = spc.linkage(pdist, method="complete", optimal_ordering=True)
+    linkage = spc.linkage(pdist, method="complete", optimal_ordering=False)
     order = spc.leaves_list(linkage)
     spc.dendrogram(
         linkage,

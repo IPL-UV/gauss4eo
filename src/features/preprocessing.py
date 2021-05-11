@@ -2,6 +2,7 @@ from typing import Tuple, Optional
 
 import pandas as pd
 import xarray as xr
+import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 LEVELS = ["time", "lat", "lon"]
@@ -34,6 +35,22 @@ def standardizer_data(
     # Y = pd.DataFrame(data=Y_values, index=Y.index, columns=Y.columns)
 
     return X, Y
+
+
+def transform_data(X, transform: str = None):
+
+    if X.ndim < 2:
+        X = X[:, None]
+
+    if transform is None:
+        pass
+    if transform == "standardize":
+        X = StandardScaler().fit_transform(X)
+    elif transform == "log":
+        X = np.log(X)
+    else:
+        raise NotImplementedError()
+    return X
 
 
 # ----------------------------------------------------------

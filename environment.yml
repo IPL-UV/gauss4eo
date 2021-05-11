@@ -1,71 +1,73 @@
 name: rbig4eo
 channels:
-- defaults
-- conda-forge
+    - defaults
+    - conda-forge
 dependencies:
-- python=3.8
-# Standard Libraries
-- numpy             # Numerical Linear Algebra
-- scipy             # Scientific Computing
-- xarray            # Data structures
-- pandas            # Data structure
-- scikit-learn      # Machine Learning
-- scikit-image      # Image Processing
-- statsmodels       # Statistical Learning
-- pymc3             # Probabilistic programming library
-# VISUALIZATION
-- matplotlib
-- seaborn
-- bokeh
-- plotly::plotly==4.6.0
-- pyviz::geoviews
-- conda-forge::cartopy
-- datashader
-# GEOSPATIAL PACKAGES
-- conda-forge::regionmask
-- conda-forge::xesmf
-- conda-forge::xcube
-- conda-forge::gdal>=3.1
-- conda-forge::libgdal>=3.1
-- pandas==1.2.3
-- conda-forge::geopandas==0.9
-- conda-forge::rasterio
-- conda-forge::rioxarray
-- conda-forge::nc-time-axis>=1.2.0
-# SCALE
-- numba
-- dask              # Out-of-Core processing
-- dask-ml           # Out-of-Core machine learning
-# Storage
-- hdf5              # standard large storage h5
-- conda-forge::zarr
-# JupyterLab Kernel
-- conda-forge::ipython
-- conda-forge::ipykernel
-- conda-forge::nb_conda_kernels     # Access to other conda kernels
-- conda-forge::nodejs               # for extensions in jupyterlab
-- conda-forge::tqdm       
-- pip
-- pip:
-    # Jupyter
-    - ipykernel
-    - ipywidgets
-    # Formatters
-    - black
-    - pylint
-    - isort
-    - flake8
-    - mypy
-    - pytest
-    - pyprojroot
-    # Extra
-    - netCDF4
-    - shapely
-    - affine
-    - netCDF4
-    - joblib          # Embarssingly parallel
-    # Documentation
-    - jupyter-book
-    - ghp-import
-    # climate data
-    - cdsapi
+    - python=3.8
+    # Standard Libraries
+    - numpy # Numerical Linear Algebra
+    - scipy # Scientific Computing
+    - xarray # Data structures
+    - pandas # Data structure
+    - scikit-learn # Machine Learning
+    - scikit-image # Image Processing
+    - statsmodels # Statistical Learning
+    - pymc3 # Probabilistic programming library
+    # VISUALIZATION
+    - matplotlib
+    - seaborn
+    - bokeh
+    - plotly::plotly==4.6.0
+    - pyviz::geoviews
+    - conda-forge::cartopy
+    - datashader
+    # GEOSPATIAL PACKAGES
+    - conda-forge::regionmask
+    - conda-forge::xesmf
+    - conda-forge::xcube
+    - conda-forge::gdal>=3.1
+    - conda-forge::libgdal>=3.1
+    - pandas==1.2.3
+    - conda-forge::geopandas==0.9
+    - conda-forge::rasterio
+    - conda-forge::rioxarray
+    - conda-forge::nc-time-axis>=1.2.0
+    # SCALE
+    - numba
+    - dask # Out-of-Core processing
+    - dask-ml # Out-of-Core machine learning
+    # Storage
+    - hdf5 # standard large storage h5
+    - conda-forge::zarr
+    # JupyterLab Kernel
+    - conda-forge::ipython
+    - conda-forge::ipykernel
+    - conda-forge::nb_conda_kernels # Access to other conda kernels
+    - conda-forge::nodejs # for extensions in jupyterlab
+    - conda-forge::tqdm
+    - pip
+    - pip:
+          # Jupyter
+          - ipykernel
+          - ipywidgets
+          # Formatters
+          - black
+          - pylint
+          - isort
+          - flake8
+          - mypy
+          - pytest
+          - pyprojroot
+          # Extra
+          - netCDF4
+          - shapely
+          - affine
+          - netCDF4
+          - joblib # Embarssingly parallel
+          # Documentation
+          - jupyter-book
+          - ghp-import
+          # climate data
+          - cdsapi
+          - "git+https://github.com/gregversteeg/NPEET.git"
+          - mutual-info

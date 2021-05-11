@@ -1,4 +1,3 @@
-from src.models.multivariate import multivariate_stats
 import sys, os
 from pyprojroot import here
 
@@ -17,7 +16,8 @@ from argparse import ArgumentParser
 import xarray as xr
 import xesmf as xe
 from isp_data.esdc.temporal import convert_to_360day_monthly
-from src.models.univariate import univariate_stats
+from src.models.univariate import get_univariate_stats
+from src.features.preprocessing import transform_data
 import tqdm
 import numpy as np
 import pandas as pd
@@ -53,12 +53,14 @@ parser = ArgumentParser(
 parser.add_argument("--start", type=int, default=202001)
 parser.add_argument("--end", type=int, default=202012)
 parser.add_argument("--base_grid", type=str, default="ipsl_cm5b_lr")
+parser.add_argument("--stats_model", type=str, default="pearson")
+parser.add_argument("--transform", type=str, default="standardize")
+parser.add_argument("--n_neighbors", type=int, default=10)
 
 # ======================
 # Logger Parameters
 # ======================
 parser.add_argument("--name", type=str, default="univariate")
-parser.add_argument("--experiment", type=str, default="univariate")
 parser.add_argument("--wandb-entity", type=str, default="ipl_uv")
 parser.add_argument("--wandb-project", type=str, default="sim4clim_era5vcmip5")
 
@@ -86,6 +88,7 @@ if args.smoke_test:
 
 wandb_logger = wandb.init(project=args.wandb_project, entity=args.wandb_entity)
 wandb_logger.config.update(args)
+wandb_logger.config.experiment = "univariate"
 config = wandb_logger.config
 
 TIME_SLICE = slice(str(config.start), str(config.end))
@@ -116,6 +119,17 @@ stats_model_names = {
     "rcka_coeff_nys": "nHSIC (Nystroem)",
     "rcka_coeff_rff": "nHSIC (RFF)",
     "mi_xy": "MI (RBIG)",
+    "knn_nbs": "MI (k-NN)",
+    "knn_eps": "MI (Epsilon-NN",
+    "gaussian_mi": "MI (Gaussian)",
+    "cca": "CCA",
+    "nhsic_lin": "nHSIC (Linear)",
+    "nhsic_rbf": "nHSIC (RBF)",
+    "mmd_lin": "MMD (Linear)",
+    "mmd_rbf": "MMD (RBF)",
+    "mgc": "MGC",
+    "dcorr": "Distance Corr.",
+    "energy": "Energy Distance",
 }
 # =====================
 # LOAD DATA
@@ -161,7 +175,7 @@ with tqdm.tqdm(ds.items()) as pbar:
         ds[imodel_id] = ds[imodel_id].sel(time=TIME_SLICE)
 
 n_time = ds[imodel_id]["time"].values.shape[0]
-wandb.log({"n_time": n_time})
+wandb_logger.config.n_time = n_time
 # =====================
 # REGRID
 # =====================
@@ -174,8 +188,8 @@ ds_out = xr.Dataset(
 
 n_lat = ds_out.coords["lat"].values.shape[0]
 n_lon = ds_out.coords["lon"].values.shape[0]
-wandb.log({"n_lat": n_lat})
-wandb.log({"n_lon": n_lon})
+wandb_logger.config.n_lon = n_lon
+wandb_logger.config.n_lat = n_lat
 
 final_ds = []
 
@@ -216,31 +230,21 @@ with tqdm.tqdm(sym_pairs) as pbar:
         # select model
         ids = final_ds.sel(model_id=[imodel_pair[0], imodel_pair[1]]).psl.values
 
-        if args.experiment == "univariate":
+        # calculate pearson correlation
+        # pbar.set_description(f"Calculating Univariate Stats...")
 
-            # calculate pearson correlation
-            # pbar.set_description(f"Calculating Univariate Stats...")
+        x = np.reshape(ids[0], (n_lat * n_lon * n_time))
+        y = np.reshape(ids[1], (n_lat * n_lon * n_time))
 
-            x = np.reshape(ids[0], (n_lat * n_lon * n_time))
-            y = np.reshape(ids[1], (n_lat * n_lon * n_time))
+        # Transform data
+        x = transform_data(x, config.transform)
+        y = transform_data(y, config.transform)
 
-            uni_stats = univariate_stats(x, y)
+        uni_stats = get_univariate_stats(
+            x, y, model=config.stats_model, n_neighbors=config.n_neighbors
+        )
 
-            imodel_stats = {**imodel_stats, **uni_stats}
-
-        elif args.experiment == "multivariate":
-
-            # calculate pearson correlation
-            # pbar.set_description(f"Calculating multivariate Stats...")
-
-            x = np.reshape(ids[0], (n_lat * n_lon, n_time))
-            y = np.reshape(ids[1], (n_lat * n_lon, n_time))
-
-            multi_stats = multivariate_stats(x, y)
-
-            imodel_stats = {**imodel_stats, **multi_stats}
-        else:
-            raise ValueError(f"Unrecognized experiment {args.experiment}")
+        imodel_stats = {**imodel_stats, **uni_stats}
 
         all_stats = pd.concat(
             [all_stats, pd.DataFrame(imodel_stats, index=[i])], axis=0
@@ -250,49 +254,26 @@ with tqdm.tqdm(sym_pairs) as pbar:
             break
 
 
-if args.experiment == "univariate":
-
-    # calculate pearson correlation
-    stats_model = [
-        "pearson",
-        "spearman",
-        "kendall",
-    ]
-
-elif args.experiment == "multivariate":
-
-    stats_model = [
-        "pearson_d",
-        "rv_coeff",
-        "cka_coeff",
-        "rcka_coeff_nys",
-        "rcka_coeff_rff",
-        "mi_xy",
-    ]
-else:
-    raise ValueError(f"Unrecognized experiment {args.experiment}")
-
-
+# calculate pearson correlation
 from src.visualization.climate.utils import get_pivot_df, plot_dendrogram, plot_heatmap
 
 
 plt_kwargs = {"vmin": 0, "cmap": "Reds"}
 
-for istats_model in stats_model:
 
-    # create pivot table
-    df = get_pivot_df(all_stats, istats_model)
+# create pivot table
+df = get_pivot_df(all_stats, config.stats_model)
 
-    # plot heatmap
-    fig, ax = plt.subplots(figsize=(6, 5))
-    ax = plot_heatmap(df, ax, **plt_kwargs)
-    ax.set(title=stats_model_names[istats_model])
-    plt.tight_layout()
-    wandb.log({f"heat_map_{istats_model}": wandb.Image(plt)})
+# plot heatmap
+fig, ax = plt.subplots(figsize=(6, 5))
+ax = plot_heatmap(df, ax, **plt_kwargs)
+ax.set(title=stats_model_names[config.stats_model])
+plt.tight_layout()
+wandb.log({f"heat_map_{config.stats_model}": wandb.Image(plt)})
 
-    # plot dendrogram
-    fig, ax = plt.subplots(figsize=(6, 5))
-    ax = plot_dendrogram(df, ax, cmip_model_names)
-    ax.set(title=stats_model_names[istats_model])
-    plt.tight_layout()
-    wandb.log({f"dendrogram_{istats_model}": wandb.Image(plt)})
+# plot dendrogram
+fig, ax = plt.subplots(figsize=(6, 5))
+ax = plot_dendrogram(df, ax, cmip_model_names)
+ax.set(title=stats_model_names[config.stats_model])
+plt.tight_layout()
+wandb.log({f"dendrogram_{config.stats_model}": wandb.Image(plt)})
